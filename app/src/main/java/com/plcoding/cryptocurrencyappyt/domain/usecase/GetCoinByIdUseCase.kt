@@ -15,7 +15,7 @@ class GetCoinByIdUseCase @Inject constructor(private val coinRepository: CoinRep
             val coinDetail = coinRepository.getCoinById(coinId).toCoinDetail()
             emit(Resource.Success(coinDetail))
         } catch (e: Exception) {
-            emit(Resource.Failure<CoinDetail>(e.localizedMessage ?: "An exception occurred"))
+            emit(Resource.Failure<CoinDetail>( "An exception occurred"))
         }
     }
 }

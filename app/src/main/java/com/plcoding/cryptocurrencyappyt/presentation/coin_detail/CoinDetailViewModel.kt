@@ -20,14 +20,14 @@ class CoinDetailViewModel @Inject constructor(
 ) :
     ViewModel() {
 
+    private val _state = mutableStateOf(CoinDetailState())
+    val state: State<CoinDetailState> = _state
+
     init {
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let {
             getCoin(it)
         }
     }
-
-    private val _state = mutableStateOf(CoinDetailState())
-    val state: State<CoinDetailState> = _state
 
     private fun getCoin(coinId: String) {
         getCoinByIdUseCase(coinId).onEach { result ->
@@ -39,7 +39,6 @@ class CoinDetailViewModel @Inject constructor(
                     CoinDetailState(error = result.errorMsg ?: "An error occurred")
 
                 is Resource.Loading -> _state.value = CoinDetailState(isLoading = true)
-
             }
 
         }.launchIn(viewModelScope)
